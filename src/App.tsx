@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import Counter from './Counter';
+let state = {someNumber: 0, incDisabledValue: false, resetDisabledValue: false};
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    let [display, setDisplay] = useState<number>(state.someNumber);
+    const addValue = () => {
+        state.someNumber === 5 ? state.someNumber = 5 : state.someNumber++;
+        setDisplay(state.someNumber)
+
+    };
+    const resetValue = () => {
+        state.someNumber = 0;
+        setDisplay(state.someNumber)
+    };
+
+    let incDisabledValue
+    if (display === 5) {
+        incDisabledValue = true
+    } else {
+        incDisabledValue = false
+    }
+
+
+    return (
+        <div className="App">
+            <Counter counterDisplay={display}
+                     addValue={addValue}
+                     resetValue={resetValue}
+            />
+
+        </div>
+    );
 }
 
 export default App;
