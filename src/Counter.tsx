@@ -4,6 +4,7 @@ export type CounterDisplayType = {
     someNumber: number
     incCondition: boolean
     resetCondition: boolean
+    error: boolean
 }
 type counterDisplay = {
     counterDisplay: CounterDisplayType
@@ -19,9 +20,10 @@ function Counter(props: counterDisplay) {
         props.resetValue()
     }
 
+
     return (
         <div className="body">
-            <div className="result">
+            <div className={props.counterDisplay.error ? "error" : "result"}>
                 {props.counterDisplay.someNumber}
             </div>
             <div className="click-board">

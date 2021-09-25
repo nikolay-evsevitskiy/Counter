@@ -7,29 +7,29 @@ function App() {
     const [display, setDisplay] = useState<CounterDisplayType>({
         someNumber: 0,
         incCondition: false,
-        resetCondition: false
+        resetCondition: false,
+        error: false
     });
+    if (display.someNumber > 4) {
+        display.incCondition = true
+        display.error = true
+    } else if (display.someNumber === 0) {
+        display.incCondition = false
+        display.resetCondition = true
+        display.error = false
+    } else {
+        display.incCondition = false
+        display.resetCondition = false
 
-    const newDisplay = {
-        someNumber: display.someNumber,
-        incCondition: display.incCondition,
-        resetCondition: display.resetCondition
-    };
+    }
+
     const addValue = () => {
-        if (newDisplay.someNumber > 4) {
-            newDisplay.incCondition = true
-        } else {
-            newDisplay.incCondition = false
-            newDisplay.resetCondition = false
-            newDisplay.someNumber++
-        }
-        setDisplay(newDisplay)
+        display.someNumber++
+        setDisplay({...display})
     };
     const resetValue = () => {
-        newDisplay.someNumber = 0;
-        newDisplay.incCondition = false
-        newDisplay.resetCondition = true
-        setDisplay(newDisplay)
+        display.someNumber = 0;
+        setDisplay({...display})
     };
 
     return (
