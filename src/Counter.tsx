@@ -1,7 +1,12 @@
 import React from 'react';
 
+export type CounterDisplayType = {
+    someNumber: number
+    incCondition: boolean
+    resetCondition: boolean
+}
 type counterDisplay = {
-    counterDisplay: number
+    counterDisplay: CounterDisplayType
     addValue: () => void
     resetValue: () => void
 };
@@ -17,15 +22,17 @@ function Counter(props: counterDisplay) {
     return (
         <div className="body">
             <div className="result">
-                {props.counterDisplay}
+                {props.counterDisplay.someNumber}
             </div>
             <div className="click-board">
                 <button className="increate"
-                        onClick={addValueOnClick}>
+                        onClick={addValueOnClick}
+                        disabled={props.counterDisplay.incCondition}>
                     inc
                 </button>
                 <button className="reset"
-                        onClick={resetValueOnClick}>
+                        onClick={resetValueOnClick}
+                        disabled={props.counterDisplay.resetCondition}>
                     reset
                 </button>
             </div>
