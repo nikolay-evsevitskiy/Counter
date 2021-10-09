@@ -4,20 +4,29 @@ import {Counter} from './Counter';
 
 function App() {
     const [value, setValue] = useState<number>(0);
-    const [error, setError] = useState<boolean>(true);
+    const [errorIncrement, setErrorIncrement] = useState<boolean>(false);
+    const [errorReset, setErrorReset] = useState<boolean>(true);
 
 
     const addValue = () => {
-        if (value >= 4) {
-            setError(false) } else {
-            setError(true)
-        }
-        setValue(value + 1)
+
+        setValue((v) => {
+            if (v >= 4) {
+                setErrorIncrement(true)
+                setErrorReset(false)
+            } else {
+                setErrorIncrement(false)
+                setErrorReset(false)
+            }
+            return v + 1
+        })
     };
 
     const resetValue = () => {
-       setValue(0)
-        setError(true)
+        setErrorIncrement(false)
+        setErrorReset(true)
+        setValue(0)
+
     };
 
     return (
@@ -26,7 +35,8 @@ function App() {
                 value={value}
                 addValue={addValue}
                 resetValue={resetValue}
-                error={error}
+                errorIncrement={errorIncrement}
+                errorReset={errorReset}
             />
 
         </div>

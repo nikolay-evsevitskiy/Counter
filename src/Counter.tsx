@@ -6,24 +6,26 @@ type CounterPropsType = {
     value: number
     addValue: () => void
     resetValue: () => void
-    error: boolean
+    errorIncrement: boolean
+    errorReset: boolean
+
 };
 
  export function Counter(props: CounterPropsType) {
 
     return (
         <div className={s.body}>
-            <div className={!props.error ? s.error : s.result}>
+            <div className={props.errorIncrement ? s.error : s.result}>
                 {props.value}
             </div>
             <div className={s.clickBoard}>
                 <Button title={'inc'}
                         changeValue={props.addValue}
-                        error={!props.error}
+                        error={props.errorIncrement}
                 />
                 <Button title={'reset'}
                         changeValue={props.resetValue}
-                        error={props.error}
+                        error={props.errorReset}
                 />
             </div>
         </div>
