@@ -1,46 +1,31 @@
 import React from 'react';
+import {Button} from "./Button";
 
-export type CounterDisplayType = {
-    someNumber: number
-    incCondition: boolean
-    resetCondition: boolean
-    error: boolean
-}
-type counterDisplay = {
-    counterDisplay: CounterDisplayType
+type CounterPropsType = {
+    value: number
     addValue: () => void
     resetValue: () => void
+    error: boolean
 };
 
-function Counter(props: counterDisplay) {
-    const addValueOnClick = () => {
-        props.addValue()
-    }
-    const resetValueOnClick = () => {
-        props.resetValue()
-    }
-
+ export function Counter(props: CounterPropsType) {
 
     return (
         <div className="body">
-            <div className={props.counterDisplay.error ? "error" : "result"}>
-                {props.counterDisplay.someNumber}
+            <div className={!props.error ? "error" : "result"}>
+                {props.value}
             </div>
             <div className="click-board">
-                <button className="increate"
-                        onClick={addValueOnClick}
-                        disabled={props.counterDisplay.incCondition}>
-                    inc
-                </button>
-                <button className="reset"
-                        onClick={resetValueOnClick}
-                        disabled={props.counterDisplay.resetCondition}>
-                    reset
-                </button>
+                <Button title={'inc'}
+                        changeValue={props.addValue}
+                        error={!props.error}
+                />
+                <Button title={'reset'}
+                        changeValue={props.resetValue}
+                        error={props.error}
+                />
             </div>
         </div>
     );
 
 }
-
-export default Counter;

@@ -1,42 +1,33 @@
 import React, {useState} from 'react';
 import './App.css';
-import Counter, {CounterDisplayType} from './Counter';
+import {Counter} from './Counter';
 
 
 function App() {
-    const [display, setDisplay] = useState<CounterDisplayType>({
-        someNumber: 0,
-        incCondition: false,
-        resetCondition: false,
-        error: false
-    });
-    if (display.someNumber > 4) {
-        display.incCondition = true
-        display.error = true
-    } else if (display.someNumber === 0) {
-        display.incCondition = false
-        display.resetCondition = true
-        display.error = false
-    } else {
-        display.incCondition = false
-        display.resetCondition = false
+    const [value, setValue] = useState<number>(0);
+    const [error, setError] = useState<boolean>(true);
 
-    }
 
     const addValue = () => {
-        display.someNumber++
-        setDisplay({...display})
+        if (value >= 4) {
+            setError(false) } else {
+            setError(true)
+        }
+        setValue(value + 1)
     };
+
     const resetValue = () => {
-        display.someNumber = 0;
-        setDisplay({...display})
+       setValue(0)
+        setError(true)
     };
 
     return (
-        <div className="App">
-            <Counter counterDisplay={display}
-                     addValue={addValue}
-                     resetValue={resetValue}
+        <div>
+            <Counter
+                value={value}
+                addValue={addValue}
+                resetValue={resetValue}
+                error={error}
             />
 
         </div>

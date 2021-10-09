@@ -29,7 +29,7 @@
     border-radius: 3%;
 }
 
-.increate {
+.buttonComponent {
     margin: 30px;
     background-color: #33c2ff;
     border-radius: 10%;
@@ -37,13 +37,6 @@
     font-weight: bolder;
 }
 
-.reset {
-    margin: 30px;
-    background-color: #33c2ff;
-    border-radius: 10%;
-    font-size: xxx-large;
-    font-weight: bolder;
-}
 .error {
     background-color: #33c2ff;
     margin: 10px;
