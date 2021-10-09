@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button} from "./Button";
+import s from "./Counter.module.css"
 
 type CounterPropsType = {
     value: number
@@ -11,11 +12,11 @@ type CounterPropsType = {
  export function Counter(props: CounterPropsType) {
 
     return (
-        <div className="body">
-            <div className={!props.error ? "error" : "result"}>
+        <div className={s.body}>
+            <div className={!props.error ? s.error : s.result}>
                 {props.value}
             </div>
-            <div className="click-board">
+            <div className={s.clickBoard}>
                 <Button title={'inc'}
                         changeValue={props.addValue}
                         error={!props.error}
