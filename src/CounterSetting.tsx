@@ -1,26 +1,23 @@
-import React, {ChangeEvent, Dispatch, SetStateAction} from 'react';
+import React, {ChangeEvent} from 'react';
 import {Button} from "./Button";
 import s from "./Counter.module.css"
 
 type CounterPropsType = {
-    maxValue: number
-    setMaxValue: Dispatch<SetStateAction<number>>
     startValue: number
-    setStartValue: Dispatch<SetStateAction<number>>
+    maxValue: number
     setButton: () => void
     error: boolean
-    changeValue: () => void
+    setMaxValue: (newValue: number) => void
+    setStartValue: (newValue: number) => void
 };
 
 export function CounterSetting(props: CounterPropsType) {
 
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
         props.setMaxValue(Number(e.currentTarget.value))
-        props.changeValue()
     }
     const onChangeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
         props.setStartValue(Number(e.currentTarget.value))
-        props.changeValue()
     }
 
     return (

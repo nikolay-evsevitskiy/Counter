@@ -2,70 +2,117 @@ import React, {useState} from 'react';
 import {Counter} from './Counter';
 import {CounterSetting} from "./CounterSetting";
 
+type  StatePropsType = {
+    value: number
+    errorIncrement: boolean
+    errorReset: boolean
+    errorSetting: boolean
+    maxValue: number
+    startValue: number
+    alertSetTitle: boolean
+    incorrectValue: boolean
+}
+
 
 function App() {
-    const [value, setValue] = useState<number>(0);
-    const [errorIncrement, setErrorIncrement] = useState<boolean>(false);
-    const [errorReset, setErrorReset] = useState<boolean>(true);
-    const [errorSetting, setErrorSetting] = useState<boolean>(true)
-    const [maxValue, setMaxValue] = useState<number>(9)
-    const [startValue, setStartValue] = useState<number>(7)
-    const ChangeValue = () => {
-        if (startValue - 1 < 0 || maxValue - 1 <= startValue) {
-            setErrorIncrement(true)
-            setErrorReset(true)
-            setErrorSetting(true)
-        } else {
-            setErrorSetting(false)
-            setErrorReset(true)
-            setErrorIncrement(true)
-        }
-    }
-
+    const [state, setState] = useState<StatePropsType>({
+        value: 0,
+        errorIncrement: false,
+        errorReset: true,
+        errorSetting: true,
+        maxValue: 0,
+        startValue: 0,
+        alertSetTitle: false,
+        incorrectValue: false
+    })
 
     const setButton = () => {
-        setValue(startValue)
-        setErrorIncrement(false)
-        setErrorSetting(true)
+        return setState({
+            ...state,
+            value: state.startValue,
+            errorIncrement: false,
+            errorSetting: true,
+            incorrectValue: false,
+            alertSetTitle: false
+        })
     }
-
     const addValue = () => {
-        setValue(value + 1)
-        if (value + 1 >= maxValue) {
-            setErrorIncrement(true)
-            setErrorReset(false)
+        if (state.value + 1 >= state.maxValue) {
+            setState({
+                ...state,
+                errorIncrement: true,
+                errorReset: false,
+                value: state.value + 1
+            })
         } else {
-            setErrorIncrement(false)
-            setErrorReset(false)
+            setState({
+                ...state,
+                errorIncrement: false,
+                errorReset: false,
+                value: state.value + 1
+            })
         }
     }
-
     const resetValue = () => {
-        setErrorIncrement(false)
-        setErrorReset(true)
-        setValue(startValue)
+        return setState({
+            ...state,
+            errorIncrement: false,
+            errorReset: true,
+            value: state.startValue
+        })
+    }
+    const changeValue = (startValue: number, maxValue: number) => {
+        if (startValue < 0 || maxValue <= startValue) {
+            setState({
+                ...state,
+                errorReset: true,
+                errorSetting: true,
+                startValue: startValue,
+                maxValue: maxValue,
+                incorrectValue: true,
+                alertSetTitle: false
+            })
+        } else {
+            setState({
+                ...state,
+                errorReset: true,
+                errorSetting: false,
+                startValue: startValue,
+                maxValue: maxValue,
+                incorrectValue: false,
+                alertSetTitle: true
+            })
+        }
+    }
+    const setMaxValue = (newValue: number) => {
+        setState({...state, maxValue: newValue})
+        changeValue(state.startValue, newValue)
+    }
+    const setStartValue = (newValue: number) => {
+        setState({...state, startValue: newValue})
+        changeValue(newValue, state.maxValue)
+    }
 
-    };
 
     return (
         <div>
             <Counter
-                value={value}
+                value={state.value}
                 addValue={addValue}
                 resetValue={resetValue}
-                errorIncrement={errorIncrement}
-                errorReset={errorReset}
+                errorIncrement={state.errorIncrement}
+                errorReset={state.errorReset}
+                alertSetTitle={state.alertSetTitle}
+                incorrectValue={state.incorrectValue}
             />
             <CounterSetting
-                maxValue={maxValue}
-                setMaxValue={setMaxValue}
-                startValue={startValue}
-                setStartValue={setStartValue}
+                startValue={state.startValue}
+                maxValue={state.maxValue}
                 setButton={setButton}
-                error={errorSetting}
-                changeValue={ChangeValue}
+                error={state.errorSetting}
+                setMaxValue={setMaxValue}
+                setStartValue={setStartValue}
             />
-
         </div>
     );
 }

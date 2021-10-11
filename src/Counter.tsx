@@ -8,15 +8,17 @@ type CounterPropsType = {
     resetValue: () => void
     errorIncrement: boolean
     errorReset: boolean
+    alertSetTitle: boolean
+    incorrectValue: boolean
 
 };
 
- export function Counter(props: CounterPropsType) {
+export function Counter(props: CounterPropsType) {
 
     return (
         <div className={s.body}>
             <div className={props.errorIncrement ? s.error : s.result}>
-                {props.value}
+                {props.alertSetTitle ? "enter values and press 'set'" : props.incorrectValue ? "Incorrect value!" : props.value}
             </div>
             <div className={s.clickBoard}>
                 <Button title={'inc'}
