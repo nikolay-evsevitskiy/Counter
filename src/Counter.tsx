@@ -10,6 +10,7 @@ type CounterPropsType = {
     errorReset: boolean
     alertSetTitle: boolean
     incorrectValue: boolean
+    error: boolean
 
 };
 
@@ -21,7 +22,7 @@ export function Counter(props: CounterPropsType) {
                 enter values and press 'set'
             </div> : props.incorrectValue ? <div className={s.titleItemError}>
                 Incorrect value!
-            </div> : <div className={props.errorIncrement ? s.error : s.result} >
+            </div> : <div className={props.error ? s.error : s.result}>
                 {props.value}
             </div>}
             <div className={s.clickBoard}>

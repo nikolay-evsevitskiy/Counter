@@ -11,13 +11,15 @@ type  StatePropsType = {
     startValue: number
     alertSetTitle: boolean
     incorrectValue: boolean
+    error: boolean
 }
 
 
 function App() {
     const [state, setState] = useState<StatePropsType>({
         value: 0,
-        errorIncrement: false,
+        error: false,
+        errorIncrement: true,
         errorReset: true,
         errorSetting: true,
         maxValue: 0,
@@ -41,6 +43,7 @@ function App() {
             setState({
                 ...state,
                 errorIncrement: true,
+                error: true,
                 errorReset: false,
                 value: state.value + 1
             })
@@ -58,6 +61,7 @@ function App() {
             ...state,
             errorIncrement: false,
             errorReset: true,
+            error: false,
             value: state.startValue
         })
     }
@@ -104,6 +108,7 @@ function App() {
                 errorReset={state.errorReset}
                 alertSetTitle={state.alertSetTitle}
                 incorrectValue={state.incorrectValue}
+                error={state.error}
             />
             <CounterSetting
                 startValue={state.startValue}

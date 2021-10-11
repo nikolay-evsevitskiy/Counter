@@ -11,7 +11,6 @@
 }
 
 .result {
-    background-color: #233740;
     margin: 10px;
     color: #33c2ff;
     border: #33c2ff 3px solid;
@@ -22,7 +21,6 @@
     padding: 80px;
 }
 .titleItem {
-    background-color: #233740;
     margin: 10px;
     color: #33c2ff;
     border: #33c2ff 3px solid;
@@ -33,7 +31,6 @@
     padding: 80px;
 }
 .titleItemError{
-    background-color: #233740;
     margin: 10px;
     color: red;
     border: #33c2ff 3px solid;
@@ -93,9 +90,8 @@ input{
 }
 
 .error {
-    background-color: #33c2ff;
     margin: 10px;
-    border: #33c2ff 1px solid;
+    border: #33c2ff 3px solid;
     border-radius: 3%;
     text-align: center;
     font-size: 90px;
