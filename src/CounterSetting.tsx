@@ -7,6 +7,7 @@ type CounterPropsType = {
     maxValue: number
     setButton: () => void
     error: boolean
+    incorrectValue: boolean
     setMaxValue: (newValue: number) => void
     setStartValue: (newValue: number) => void
 };
@@ -22,29 +23,34 @@ export function CounterSetting(props: CounterPropsType) {
 
     return (
         <div className={s.body}>
-            <div>
-                <div>
-                    max value: <input type="number"
-                                      value={props.maxValue}
-                                      onChange={onChangeMaxValue}
-                />
+            <div className={s.inputBoard}>
+                <div className={s.inputItem}>
+                    max value:
                 </div>
-                <div>
-                    start value: <input type="number"
-                                        value={props.startValue}
-                                        onChange={onChangeStartValue}
-                />
+                <div className={s.inputItem}>
+                    <input type="number"
+                           value={props.maxValue}
+                           onChange={onChangeMaxValue}
+                           className={props.incorrectValue ? s.errorInput : ''}
+                    />
                 </div>
-
-            </div>
-            <div className={s.clickBoard}>
-                <div className={s.buttonComponent}>
-                    <Button title={'set'}
-                            changeValue={props.setButton}
-                            error={props.error}
+                <div className={s.inputItem}>
+                    start value:
+                </div>
+                <div className={s.inputItem}>
+                    <input type="number"
+                           value={props.startValue}
+                           onChange={onChangeStartValue}
+                           className={props.incorrectValue ? s.errorInput : ''}
                     />
                 </div>
 
+            </div>
+            <div className={s.clickBoarCounterSet}>
+                <Button title={'set'}
+                        changeValue={props.setButton}
+                        error={props.error}
+                />
             </div>
         </div>
     );

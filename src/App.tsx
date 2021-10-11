@@ -112,6 +112,7 @@ function App() {
                 error={state.errorSetting}
                 setMaxValue={setMaxValue}
                 setStartValue={setStartValue}
+                incorrectValue={state.incorrectValue}
             />
         </div>
     );

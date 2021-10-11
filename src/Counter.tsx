@@ -17,9 +17,13 @@ export function Counter(props: CounterPropsType) {
 
     return (
         <div className={s.body}>
-            <div className={props.errorIncrement ? s.error : s.result}>
-                {props.alertSetTitle ? "enter values and press 'set'" : props.incorrectValue ? "Incorrect value!" : props.value}
-            </div>
+            {props.alertSetTitle ? <div className={s.titleItem}>
+                enter values and press 'set'
+            </div> : props.incorrectValue ? <div className={s.titleItemError}>
+                Incorrect value!
+            </div> : <div className={props.errorIncrement ? s.error : s.result} >
+                {props.value}
+            </div>}
             <div className={s.clickBoard}>
                 <Button title={'inc'}
                         changeValue={props.addValue}
