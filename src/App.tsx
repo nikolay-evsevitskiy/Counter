@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Counter} from './Counter';
 import {CounterSetting} from "./CounterSetting";
 
@@ -14,8 +14,8 @@ type  StatePropsType = {
     error: boolean
 }
 
-
 function App() {
+
     const [state, setState] = useState<StatePropsType>({
         value: 0,
         error: false,
@@ -27,9 +27,75 @@ function App() {
         alertSetTitle: false,
         incorrectValue: false
     })
+    useEffect(() => {
+        getFromLocalStorage()
+    }, [ ])
+
+    useEffect(() => {
+        setToLocalStorage()
+    }, [state])
+
+    const getFromLocalStorage = () => {
+        let valueAsString = localStorage.getItem('counterValue')
+        if (valueAsString) {
+            let newValue = JSON.parse(valueAsString)
+            setState({...state, value: newValue})
+        }
+        let errorAsString = localStorage.getItem('error')
+        if (errorAsString) {
+            let newError = JSON.parse(errorAsString)
+            setState({...state, error: newError})
+        }
+        let errorIncrementAsString = localStorage.getItem('errorIncrement')
+        if (errorIncrementAsString) {
+            let newErrorIncrement = JSON.parse(errorIncrementAsString)
+            setState({...state, errorIncrement: newErrorIncrement})
+        }
+        let errorResetAsString = localStorage.getItem('errorReset')
+        if (errorResetAsString) {
+            let newErrorReset = JSON.parse(errorResetAsString)
+            setState({...state, errorReset: newErrorReset})
+        }
+        let errorSettingAsString = localStorage.getItem('errorSetting')
+        if (errorSettingAsString) {
+            let newErrorSetting = JSON.parse(errorSettingAsString)
+            setState({...state, errorSetting: newErrorSetting})
+        }
+        let maxValueAsString = localStorage.getItem('maxValue')
+        if (maxValueAsString) {
+            let newMaxValue = JSON.parse(maxValueAsString)
+            setState({...state, maxValue: newMaxValue})
+        }
+        let startValueAsString = localStorage.getItem('startValue')
+        if (startValueAsString) {
+            let newStartValue = JSON.parse(startValueAsString)
+            setState({...state, startValue: newStartValue})
+        }
+        let alertSetTitleAsString = localStorage.getItem('alertSetTitle')
+        if (alertSetTitleAsString) {
+            let newAlertSetTitle = JSON.parse(alertSetTitleAsString)
+            setState({...state, alertSetTitle: newAlertSetTitle})
+        }
+        let incorrectValueAsString = localStorage.getItem('incorrectValue')
+        if (incorrectValueAsString) {
+            let newIncorrectValue = JSON.parse(incorrectValueAsString)
+            setState({...state, incorrectValue: newIncorrectValue})
+        }
+    }
+    const setToLocalStorage = () => {
+        localStorage.setItem('counterValue', JSON.stringify(state.value))
+        localStorage.setItem('error', JSON.stringify(state.error))
+        localStorage.setItem('errorIncrement', JSON.stringify(state.errorIncrement))
+        localStorage.setItem('errorReset', JSON.stringify(state.errorReset))
+        localStorage.setItem('errorSetting', JSON.stringify(state.errorSetting))
+        localStorage.setItem('maxValue', JSON.stringify(state.maxValue))
+        localStorage.setItem('startValue', JSON.stringify(state.startValue))
+        localStorage.setItem('alertSetTitle', JSON.stringify(state.alertSetTitle))
+        localStorage.setItem('incorrectValue', JSON.stringify(state.incorrectValue))
+    }
 
     const setButton = () => {
-        return setState({
+        setState({
             ...state,
             value: state.startValue,
             errorIncrement: false,
@@ -57,6 +123,7 @@ function App() {
         }
     }
     const resetValue = () => {
+
         return setState({
             ...state,
             errorIncrement: false,
@@ -80,11 +147,13 @@ function App() {
             setState({
                 ...state,
                 errorReset: true,
+                errorIncrement: true,
                 errorSetting: false,
                 startValue: startValue,
                 maxValue: maxValue,
                 incorrectValue: false,
-                alertSetTitle: true
+                alertSetTitle: true,
+                error: false
             })
         }
     }
