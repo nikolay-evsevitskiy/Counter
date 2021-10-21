@@ -23,81 +23,28 @@ function App() {
         errorValue: false,
         errorIncrementButton: true,
         errorResetButton: true,
-        errorSettingButton: true,
+        errorSettingButton: false,
         alertSetTitle: false,
         errorMaxValue: false,
         errorStartValue: false
     })
+
     useEffect(() => {
         getFromLocalStorage()
     }, [])
-    useEffect(() => {
-        setToLocalStorage()
-    }, [state])
 
     const getFromLocalStorage = () => {
-        let valueAsString = localStorage.getItem('counterValue')
-        if (valueAsString) {
-            let newValue = JSON.parse(valueAsString)
-            setState({...state, value: newValue})
-        }
-        let errorAsString = localStorage.getItem('error')
-        if (errorAsString) {
-            let newError = JSON.parse(errorAsString)
-            setState({...state, errorValue: newError})
-        }
-        let errorIncrementAsString = localStorage.getItem('errorIncrement')
-        if (errorIncrementAsString) {
-            let newErrorIncrement = JSON.parse(errorIncrementAsString)
-            setState({...state, errorIncrementButton: newErrorIncrement})
-        }
-        let errorResetAsString = localStorage.getItem('errorReset')
-        if (errorResetAsString) {
-            let newErrorReset = JSON.parse(errorResetAsString)
-            setState({...state, errorResetButton: newErrorReset})
-        }
-        let errorSettingAsString = localStorage.getItem('errorSetting')
-        if (errorSettingAsString) {
-            let newErrorSetting = JSON.parse(errorSettingAsString)
-            setState({...state, errorSettingButton: newErrorSetting})
-        }
         let maxValueAsString = localStorage.getItem('maxValue')
-        if (maxValueAsString) {
-            let newMaxValue = JSON.parse(maxValueAsString)
-            setState({...state, maxValue: newMaxValue})
-        }
         let startValueAsString = localStorage.getItem('startValue')
-        if (startValueAsString) {
+        if (maxValueAsString && startValueAsString) {
+            let newMaxValue = JSON.parse(maxValueAsString)
             let newStartValue = JSON.parse(startValueAsString)
-            setState({...state, startValue: newStartValue})
-        }
-        let alertSetTitleAsString = localStorage.getItem('alertSetTitle')
-        if (alertSetTitleAsString) {
-            let newAlertSetTitle = JSON.parse(alertSetTitleAsString)
-            setState({...state, alertSetTitle: newAlertSetTitle})
-        }
-        let errorMaxValueAsString = localStorage.getItem('errorMaxValue')
-        if (errorMaxValueAsString) {
-            let newIncorrectValue = JSON.parse(errorMaxValueAsString)
-            setState({...state, errorMaxValue: newIncorrectValue})
-        }
-        let errorStartValueAsString = localStorage.getItem('errorStartValue')
-        if (errorStartValueAsString) {
-            let newIncorrectValue = JSON.parse(errorStartValueAsString)
-            setState({...state, errorStartValue: newIncorrectValue})
+            setState({...state, maxValue: newMaxValue, startValue: newStartValue})
         }
     }
     const setToLocalStorage = () => {
-        localStorage.setItem('counterValue', JSON.stringify(state.value))
-        localStorage.setItem('errorValue', JSON.stringify(state.errorValue))
-        localStorage.setItem('errorIncrementButton', JSON.stringify(state.errorIncrementButton))
-        localStorage.setItem('errorResetButton', JSON.stringify(state.errorResetButton))
-        localStorage.setItem('errorSettingButton', JSON.stringify(state.errorSettingButton))
         localStorage.setItem('maxValue', JSON.stringify(state.maxValue))
         localStorage.setItem('startValue', JSON.stringify(state.startValue))
-        localStorage.setItem('alertSetTitle', JSON.stringify(state.alertSetTitle))
-        localStorage.setItem('errorMaxValue', JSON.stringify(state.errorMaxValue))
-        localStorage.setItem('errorStartValue', JSON.stringify(state.errorStartValue))
     }
 
     const setButton = () => {
@@ -110,6 +57,7 @@ function App() {
             errorStartValue: false,
             alertSetTitle: false
         })
+        setToLocalStorage()
     }
     const addValue = () => {
         if (state.value + 1 >= state.maxValue) {
