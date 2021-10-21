@@ -17,26 +17,23 @@ type CounterPropsType = {
 
 export function Counter(props: CounterPropsType) {
 
-    return (
-        <div className={s.body}>
-            {props.alertSetTitle ? <div className={s.titleItem}>
-                enter values and press 'set'
-            </div> : props.errorMaxValue || props.errorStartValue ? <div className={s.titleItemError}>
-                Incorrect value!
-            </div> : <div className={props.error ? s.error : s.result}>
-                {props.value}
-            </div>}
-            <div className={s.clickBoard}>
-                <Button title={'inc'}
-                        changeValue={props.addValue}
-                        error={props.errorIncrement}
-                />
-                <Button title={'reset'}
-                        changeValue={props.resetValue}
-                        error={props.errorReset}
-                />
-            </div>
+    return <div className={s.body}>
+        {props.alertSetTitle ? <div className={s.titleItem}>
+            enter values and press 'set'
+        </div> : props.errorMaxValue || props.errorStartValue ? <div className={s.titleItemError}>
+            Incorrect value!
+        </div> : <div className={props.error ? s.error : s.result}>
+            {props.value}
+        </div>}
+        <div className={s.clickBoard}>
+            <Button title={'inc'}
+                    changeValue={props.addValue}
+                    error={props.errorIncrement}
+            />
+            <Button title={'reset'}
+                    changeValue={props.resetValue}
+                    error={props.errorReset}
+            />
         </div>
-    );
-
+    </div>
 }

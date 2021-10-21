@@ -16,7 +16,6 @@ type  StatePropsType = {
 }
 
 function App() {
-
     const [state, setState] = useState<StatePropsType>({
         value: 0,
         maxValue: 0,
@@ -32,7 +31,6 @@ function App() {
     useEffect(() => {
         getFromLocalStorage()
     }, [])
-
     useEffect(() => {
         setToLocalStorage()
     }, [state])
@@ -185,7 +183,6 @@ function App() {
         setState({...state, startValue: newValue})
         changeValue(newValue, state.maxValue)
     }
-
 
     return (
         <div>
