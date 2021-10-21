@@ -4,32 +4,34 @@ import {CounterSetting} from "./CounterSetting";
 
 type  StatePropsType = {
     value: number
-    errorIncrement: boolean
-    errorReset: boolean
-    errorSetting: boolean
+    errorIncrementButton: boolean
+    errorResetButton: boolean
+    errorSettingButton: boolean
     maxValue: number
     startValue: number
     alertSetTitle: boolean
-    incorrectValue: boolean
-    error: boolean
+    errorMaxValue: boolean
+    errorStartValue: boolean
+    errorValue: boolean
 }
 
 function App() {
 
     const [state, setState] = useState<StatePropsType>({
         value: 0,
-        error: false,
-        errorIncrement: true,
-        errorReset: true,
-        errorSetting: true,
         maxValue: 0,
         startValue: 0,
+        errorValue: false,
+        errorIncrementButton: true,
+        errorResetButton: true,
+        errorSettingButton: true,
         alertSetTitle: false,
-        incorrectValue: false
+        errorMaxValue: false,
+        errorStartValue: false
     })
     useEffect(() => {
         getFromLocalStorage()
-    }, [ ])
+    }, [])
 
     useEffect(() => {
         setToLocalStorage()
@@ -44,22 +46,22 @@ function App() {
         let errorAsString = localStorage.getItem('error')
         if (errorAsString) {
             let newError = JSON.parse(errorAsString)
-            setState({...state, error: newError})
+            setState({...state, errorValue: newError})
         }
         let errorIncrementAsString = localStorage.getItem('errorIncrement')
         if (errorIncrementAsString) {
             let newErrorIncrement = JSON.parse(errorIncrementAsString)
-            setState({...state, errorIncrement: newErrorIncrement})
+            setState({...state, errorIncrementButton: newErrorIncrement})
         }
         let errorResetAsString = localStorage.getItem('errorReset')
         if (errorResetAsString) {
             let newErrorReset = JSON.parse(errorResetAsString)
-            setState({...state, errorReset: newErrorReset})
+            setState({...state, errorResetButton: newErrorReset})
         }
         let errorSettingAsString = localStorage.getItem('errorSetting')
         if (errorSettingAsString) {
             let newErrorSetting = JSON.parse(errorSettingAsString)
-            setState({...state, errorSetting: newErrorSetting})
+            setState({...state, errorSettingButton: newErrorSetting})
         }
         let maxValueAsString = localStorage.getItem('maxValue')
         if (maxValueAsString) {
@@ -76,31 +78,38 @@ function App() {
             let newAlertSetTitle = JSON.parse(alertSetTitleAsString)
             setState({...state, alertSetTitle: newAlertSetTitle})
         }
-        let incorrectValueAsString = localStorage.getItem('incorrectValue')
-        if (incorrectValueAsString) {
-            let newIncorrectValue = JSON.parse(incorrectValueAsString)
-            setState({...state, incorrectValue: newIncorrectValue})
+        let errorMaxValueAsString = localStorage.getItem('errorMaxValue')
+        if (errorMaxValueAsString) {
+            let newIncorrectValue = JSON.parse(errorMaxValueAsString)
+            setState({...state, errorMaxValue: newIncorrectValue})
+        }
+        let errorStartValueAsString = localStorage.getItem('errorStartValue')
+        if (errorStartValueAsString) {
+            let newIncorrectValue = JSON.parse(errorStartValueAsString)
+            setState({...state, errorStartValue: newIncorrectValue})
         }
     }
     const setToLocalStorage = () => {
         localStorage.setItem('counterValue', JSON.stringify(state.value))
-        localStorage.setItem('error', JSON.stringify(state.error))
-        localStorage.setItem('errorIncrement', JSON.stringify(state.errorIncrement))
-        localStorage.setItem('errorReset', JSON.stringify(state.errorReset))
-        localStorage.setItem('errorSetting', JSON.stringify(state.errorSetting))
+        localStorage.setItem('errorValue', JSON.stringify(state.errorValue))
+        localStorage.setItem('errorIncrementButton', JSON.stringify(state.errorIncrementButton))
+        localStorage.setItem('errorResetButton', JSON.stringify(state.errorResetButton))
+        localStorage.setItem('errorSettingButton', JSON.stringify(state.errorSettingButton))
         localStorage.setItem('maxValue', JSON.stringify(state.maxValue))
         localStorage.setItem('startValue', JSON.stringify(state.startValue))
         localStorage.setItem('alertSetTitle', JSON.stringify(state.alertSetTitle))
-        localStorage.setItem('incorrectValue', JSON.stringify(state.incorrectValue))
+        localStorage.setItem('errorMaxValue', JSON.stringify(state.errorMaxValue))
+        localStorage.setItem('errorStartValue', JSON.stringify(state.errorStartValue))
     }
 
     const setButton = () => {
         setState({
             ...state,
             value: state.startValue,
-            errorIncrement: false,
-            errorSetting: true,
-            incorrectValue: false,
+            errorIncrementButton: false,
+            errorSettingButton: true,
+            errorMaxValue: false,
+            errorStartValue: false,
             alertSetTitle: false
         })
     }
@@ -108,16 +117,16 @@ function App() {
         if (state.value + 1 >= state.maxValue) {
             setState({
                 ...state,
-                errorIncrement: true,
-                error: true,
-                errorReset: false,
+                errorIncrementButton: true,
+                errorValue: true,
+                errorResetButton: false,
                 value: state.value + 1
             })
         } else {
             setState({
                 ...state,
-                errorIncrement: false,
-                errorReset: false,
+                errorIncrementButton: false,
+                errorResetButton: false,
                 value: state.value + 1
             })
         }
@@ -126,34 +135,45 @@ function App() {
 
         return setState({
             ...state,
-            errorIncrement: false,
-            errorReset: true,
-            error: false,
+            errorIncrementButton: false,
+            errorResetButton: true,
+            errorValue: false,
             value: state.startValue
         })
     }
     const changeValue = (startValue: number, maxValue: number) => {
-        if (startValue < 0 || maxValue <= startValue) {
+        if (startValue < 0) {
             setState({
                 ...state,
-                errorReset: true,
-                errorSetting: true,
+                errorResetButton: true,
+                errorSettingButton: true,
                 startValue: startValue,
                 maxValue: maxValue,
-                incorrectValue: true,
+                errorStartValue: true,
+                alertSetTitle: false
+            })
+        } else if (maxValue <= startValue) {
+            setState({
+                ...state,
+                errorResetButton: true,
+                errorSettingButton: true,
+                startValue: startValue,
+                maxValue: maxValue,
+                errorMaxValue: true,
                 alertSetTitle: false
             })
         } else {
             setState({
                 ...state,
-                errorReset: true,
-                errorIncrement: true,
-                errorSetting: false,
+                errorResetButton: true,
+                errorIncrementButton: true,
+                errorSettingButton: false,
                 startValue: startValue,
                 maxValue: maxValue,
-                incorrectValue: false,
+                errorMaxValue: false,
+                errorStartValue: false,
                 alertSetTitle: true,
-                error: false
+                errorValue: false
             })
         }
     }
@@ -173,20 +193,22 @@ function App() {
                 value={state.value}
                 addValue={addValue}
                 resetValue={resetValue}
-                errorIncrement={state.errorIncrement}
-                errorReset={state.errorReset}
+                errorIncrement={state.errorIncrementButton}
+                errorReset={state.errorResetButton}
                 alertSetTitle={state.alertSetTitle}
-                incorrectValue={state.incorrectValue}
-                error={state.error}
+                errorMaxValue={state.errorMaxValue}
+                errorStartValue={state.errorStartValue}
+                error={state.errorValue}
             />
             <CounterSetting
                 startValue={state.startValue}
                 maxValue={state.maxValue}
                 setButton={setButton}
-                error={state.errorSetting}
+                error={state.errorSettingButton}
                 setMaxValue={setMaxValue}
                 setStartValue={setStartValue}
-                incorrectValue={state.incorrectValue}
+                errorMaxValue={state.errorMaxValue}
+                errorStartValue={state.errorStartValue}
             />
         </div>
     );

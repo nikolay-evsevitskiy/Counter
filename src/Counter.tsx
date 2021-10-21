@@ -9,7 +9,8 @@ type CounterPropsType = {
     errorIncrement: boolean
     errorReset: boolean
     alertSetTitle: boolean
-    incorrectValue: boolean
+    errorMaxValue: boolean
+    errorStartValue: boolean
     error: boolean
 
 };
@@ -20,7 +21,7 @@ export function Counter(props: CounterPropsType) {
         <div className={s.body}>
             {props.alertSetTitle ? <div className={s.titleItem}>
                 enter values and press 'set'
-            </div> : props.incorrectValue ? <div className={s.titleItemError}>
+            </div> : props.errorMaxValue || props.errorStartValue ? <div className={s.titleItemError}>
                 Incorrect value!
             </div> : <div className={props.error ? s.error : s.result}>
                 {props.value}

@@ -7,9 +7,11 @@ type CounterPropsType = {
     maxValue: number
     setButton: () => void
     error: boolean
-    incorrectValue: boolean
+    errorMaxValue: boolean
+    errorStartValue: boolean
     setMaxValue: (newValue: number) => void
     setStartValue: (newValue: number) => void
+
 };
 
 export function CounterSetting(props: CounterPropsType) {
@@ -31,7 +33,7 @@ export function CounterSetting(props: CounterPropsType) {
                     <input type="number"
                            value={props.maxValue}
                            onChange={onChangeMaxValue}
-                           className={props.incorrectValue ? s.errorInput : ''}
+                           className={props.errorMaxValue ? s.errorInput : ''}
                     />
                 </div>
                 <div className={s.inputItem}>
@@ -41,7 +43,7 @@ export function CounterSetting(props: CounterPropsType) {
                     <input type="number"
                            value={props.startValue}
                            onChange={onChangeStartValue}
-                           className={props.incorrectValue ? s.errorInput : ''}
+                           className={props.errorStartValue ? s.errorInput : ''}
                     />
                 </div>
 
