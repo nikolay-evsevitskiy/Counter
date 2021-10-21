@@ -20,6 +20,7 @@
     font-weight: bolder;
     padding: 80px;
 }
+
 .titleItem {
     margin: 10px;
     color: #33c2ff;
@@ -30,7 +31,8 @@
     font-weight: bolder;
     padding: 80px;
 }
-.titleItemError{
+
+.titleItemError {
     margin: 10px;
     color: red;
     border: #33c2ff 3px solid;
@@ -40,19 +42,32 @@
     font-weight: bolder;
     padding: 80px;
 }
+
 .inputBoard {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     background-color: #233740;
-    margin: 10px;
+    margin: 10px auto;
     border: #33c2ff 3px solid;
     border-radius: 4%;
+    padding: 10px 55px 0 55px;
+
 
 }
-.inputItem{
-    margin: 20px auto;
+
+.inputValueContainer {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+.inputItem {
     padding: 10px;
+
+}
+
+.inputTitle {
     color: #33c2ff;
     font-weight: bold;
     font-size: 24px;
@@ -65,9 +80,10 @@
     border: #33c2ff 3px solid;
     border-radius: 3%;
 }
-.clickBoarCounterSet{
+
+.clickBoarCounterSet {
     display: grid;
-    grid-template-columns: 200px ;
+    grid-template-columns: 200px;
     margin: 5px auto;
     padding: 0 85px 0 85px;
     border: #33c2ff 3px solid;
@@ -81,7 +97,8 @@
     font-size: xxx-large;
     font-weight: bolder;
 }
-input{
+
+input {
     border-radius: 10%;
     border: #33c2ff 3px solid;
     width: 100px;
@@ -99,9 +116,11 @@ input{
     padding: 50px;
     color: red;
 }
-.buttonStyle{
+
+.buttonStyle {
     margin: 0 auto;
 }
-.errorInput{
+
+.errorInput {
     background: red;
 }

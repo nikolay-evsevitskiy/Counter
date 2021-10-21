@@ -8,15 +8,15 @@ type InputValueType = {
     title: string
 }
 
-export function InputValue (props: InputValueType) {
+export function InputValue(props: InputValueType) {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.onChangeValue(Number(e.currentTarget.value))
     }
 
-    return <div>
-        <div className={s.inputItem}>
+    return <div className={s.inputValueContainer}>
+        <span className={s.inputTitle}>
             {props.title} value:
-        </div>
+        </span>
         <div className={s.inputItem}>
             <input type="number"
                    value={props.value}
