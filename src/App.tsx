@@ -60,20 +60,11 @@ function App() {
         setErrorValue(false)
         setValue(startValue)
     }
-    const changeValue = (startValue: number, maxValue: number) => {
-        if (startValue < 0) {
-            setErrorResetButton(true)
-            setErrorSettingButton(true)
-            setStartValue(startValue)
-            setMaxValue(maxValue)
-            setErrorStartValue(true)
-            setAlertSetTitle(false)
 
-        } else if (maxValue <= startValue || maxValue <= 0) {
+    const changeMaxValue = (newValue: number) => {
+        if (newValue <= startValue || newValue <= 0) {
             setErrorResetButton(true)
             setErrorSettingButton(true)
-            setStartValue(startValue)
-            setMaxValue(maxValue)
             setErrorMaxValue(true)
             setAlertSetTitle(false)
 
@@ -81,21 +72,28 @@ function App() {
             setErrorResetButton(true)
             setErrorIncrementButton(true)
             setErrorSettingButton(false)
-            setStartValue(startValue)
-            setMaxValue(maxValue)
             setErrorMaxValue(false)
+            setAlertSetTitle(true)
+            setErrorValue(false)
+        }
+        setMaxValue(newValue)
+    }
+    const changeStartValue = (newValue: number) => {
+        if (newValue < 0 || newValue >= maxValue) {
+            setErrorResetButton(true)
+            setErrorSettingButton(true)
+            setErrorStartValue(true)
+            setAlertSetTitle(false)
+
+        } else {
+            setErrorResetButton(true)
+            setErrorIncrementButton(true)
+            setErrorSettingButton(false)
             setAlertSetTitle(true)
             setErrorStartValue(false)
             setErrorValue(false)
         }
-    }
-    const changeMaxValue = (newValue: number) => {
-        setMaxValue(newValue)
-        changeValue(startValue, newValue)
-    }
-    const changeStartValue = (newValue: number) => {
         setStartValue(newValue)
-        changeValue(newValue, maxValue)
     }
 
     return (
