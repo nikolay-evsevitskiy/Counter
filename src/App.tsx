@@ -2,32 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {Counter} from './Counter';
 import {CounterSetting} from "./CounterSetting";
 
-type  StatePropsType = {
-    value: number
-    errorIncrementButton: boolean
-    errorResetButton: boolean
-    errorSettingButton: boolean
-    maxValue: number
-    startValue: number
-    alertSetTitle: boolean
-    errorMaxValue: boolean
-    errorStartValue: boolean
-    errorValue: boolean
-}
-
 function App() {
-    const [state, setState] = useState<StatePropsType>({
-        value: 0,
-        maxValue: 0,
-        startValue: 0,
-        errorValue: false,
-        errorIncrementButton: true,
-        errorResetButton: true,
-        errorSettingButton: false,
-        alertSetTitle: false,
-        errorMaxValue: false,
-        errorStartValue: false
-    })
+    const [value, setValue] = useState<number>(0)
+    const [maxValue, setMaxValue] = useState<number>(0)
+    const [startValue, setStartValue] = useState<number>(0)
+    const [errorValue, setErrorValue] = useState<boolean>(false)
+    const [errorIncrementButton, setErrorIncrementButton] = useState<boolean>(true)
+    const [errorResetButton, setErrorResetButton] = useState<boolean>(true)
+    const [errorSettingButton, setErrorSettingButton] = useState<boolean>(false)
+    const [alertSetTitle, setAlertSetTitle] = useState<boolean>(false)
+    const [errorMaxValue, setErrorMaxValue] = useState<boolean>(false)
+    const [errorStartValue, setErrorStartValue] = useState<boolean>(false)
 
     useEffect(() => {
         getFromLocalStorage()
@@ -39,121 +24,102 @@ function App() {
         if (maxValueAsString && startValueAsString) {
             let newMaxValue = JSON.parse(maxValueAsString)
             let newStartValue = JSON.parse(startValueAsString)
-            setState({...state, maxValue: newMaxValue, startValue: newStartValue})
+            setMaxValue(newMaxValue)
+            setStartValue(newStartValue)
         }
     }
     const setToLocalStorage = () => {
-        localStorage.setItem('maxValue', JSON.stringify(state.maxValue))
-        localStorage.setItem('startValue', JSON.stringify(state.startValue))
+        localStorage.setItem('maxValue', JSON.stringify(maxValue))
+        localStorage.setItem('startValue', JSON.stringify(startValue))
     }
 
     const setButton = () => {
-        setState({
-            ...state,
-            value: state.startValue,
-            errorIncrementButton: false,
-            errorSettingButton: true,
-            errorMaxValue: false,
-            errorStartValue: false,
-            alertSetTitle: false
-        })
+        setValue(startValue)
+        setErrorIncrementButton(false)
+        setErrorSettingButton(true)
+        setErrorMaxValue(false)
+        setErrorStartValue(false)
+        setAlertSetTitle(false)
         setToLocalStorage()
     }
     const addValue = () => {
-        if (state.value + 1 >= state.maxValue) {
-            setState({
-                ...state,
-                errorIncrementButton: true,
-                errorValue: true,
-                errorResetButton: false,
-                value: state.value + 1
-            })
+        if (value + 1 >= maxValue) {
+            setErrorIncrementButton(true)
+            setErrorValue(true)
+            setErrorResetButton(false)
+            setValue(value + 1)
         } else {
-            setState({
-                ...state,
-                errorIncrementButton: false,
-                errorResetButton: false,
-                value: state.value + 1
-            })
+            setErrorIncrementButton(false)
+            setErrorResetButton(false)
+            setValue(value + 1)
         }
     }
     const resetValue = () => {
-
-        return setState({
-            ...state,
-            errorIncrementButton: false,
-            errorResetButton: true,
-            errorValue: false,
-            value: state.startValue
-        })
+        setErrorIncrementButton(false)
+        setErrorResetButton(true)
+        setErrorValue(false)
+        setValue(startValue)
     }
     const changeValue = (startValue: number, maxValue: number) => {
         if (startValue < 0) {
-            setState({
-                ...state,
-                errorResetButton: true,
-                errorSettingButton: true,
-                startValue: startValue,
-                maxValue: maxValue,
-                errorStartValue: true,
-                alertSetTitle: false
-            })
-        } else if (maxValue <= startValue) {
-            setState({
-                ...state,
-                errorResetButton: true,
-                errorSettingButton: true,
-                startValue: startValue,
-                maxValue: maxValue,
-                errorMaxValue: true,
-                alertSetTitle: false
-            })
+            setErrorResetButton(true)
+            setErrorSettingButton(true)
+            setStartValue(startValue)
+            setMaxValue(maxValue)
+            setErrorStartValue(true)
+            setAlertSetTitle(false)
+
+        } else if (maxValue <= startValue || maxValue <= 0) {
+            setErrorResetButton(true)
+            setErrorSettingButton(true)
+            setStartValue(startValue)
+            setMaxValue(maxValue)
+            setErrorMaxValue(true)
+            setAlertSetTitle(false)
+
         } else {
-            setState({
-                ...state,
-                errorResetButton: true,
-                errorIncrementButton: true,
-                errorSettingButton: false,
-                startValue: startValue,
-                maxValue: maxValue,
-                errorMaxValue: false,
-                errorStartValue: false,
-                alertSetTitle: true,
-                errorValue: false
-            })
+            setErrorResetButton(true)
+            setErrorIncrementButton(true)
+            setErrorSettingButton(false)
+            setStartValue(startValue)
+            setMaxValue(maxValue)
+            setErrorMaxValue(false)
+            setAlertSetTitle(true)
+            setErrorStartValue(false)
+            setErrorValue(false)
         }
     }
-    const setMaxValue = (newValue: number) => {
-        setState({...state, maxValue: newValue})
-        changeValue(state.startValue, newValue)
+    const changeMaxValue = (newValue: number) => {
+        setMaxValue(newValue)
+        changeValue(startValue, newValue)
     }
-    const setStartValue = (newValue: number) => {
-        setState({...state, startValue: newValue})
-        changeValue(newValue, state.maxValue)
+    const changeStartValue = (newValue: number) => {
+        setStartValue(newValue)
+        changeValue(newValue, maxValue)
     }
 
     return (
         <div>
             <Counter
-                value={state.value}
+                value={value}
                 addValue={addValue}
                 resetValue={resetValue}
-                errorIncrement={state.errorIncrementButton}
-                errorReset={state.errorResetButton}
-                alertSetTitle={state.alertSetTitle}
-                errorMaxValue={state.errorMaxValue}
-                errorStartValue={state.errorStartValue}
-                error={state.errorValue}
+                errorIncrement={errorIncrementButton}
+                errorReset={errorResetButton}
+                alertSetTitle={alertSetTitle}
+                errorMaxValue={errorMaxValue}
+                errorStartValue={errorStartValue}
+                error={errorValue}
             />
             <CounterSetting
-                startValue={state.startValue}
-                maxValue={state.maxValue}
+                startValue={startValue}
+                maxValue={maxValue}
                 setButton={setButton}
-                error={state.errorSettingButton}
-                setMaxValue={setMaxValue}
-                setStartValue={setStartValue}
-                errorMaxValue={state.errorMaxValue}
-                errorStartValue={state.errorStartValue}
+                error={errorSettingButton}
+                setMaxValue={changeMaxValue}
+                setStartValue={changeStartValue}
+                errorMaxValue={errorMaxValue}
+                errorStartValue={errorStartValue}
             />
         </div>
     );

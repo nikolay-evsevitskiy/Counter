@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import {Button} from "./Button";
 import s from "./Counter.module.css"
 import {InputValue} from "./InputValue";
