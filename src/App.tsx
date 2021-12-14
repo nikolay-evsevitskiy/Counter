@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Counter} from './Counter';
 import {CounterSetting} from "./CounterSetting";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
-import {addValueAC, changeMaxValueAC, changeStartValueAC, resetValueAC, setButtonClickAC} from "./state/counterReducer";
+import {
+    addValueAC,
+    changeMaxValueAC,
+    changeStartValueAC, getValueFromLocalStorageTC, putValueFromLocalStorageTC,
+    resetValueAC,
+    setButtonClickAC,
+} from "./state/counterReducer";
 
 function App() {
 
@@ -19,29 +25,13 @@ function App() {
     const startValue = useSelector<AppRootStateType, number>(state => state.counter.startValue)
     const maxValue = useSelector<AppRootStateType, number>(state => state.counter.maxValue)
 
-
-    // useEffect(() => {
-    //     getFromLocalStorage()
-    // }, [])
-    //
-    // const getFromLocalStorage = () => {
-    //     let maxValueAsString = localStorage.getItem('maxValue')
-    //     let startValueAsString = localStorage.getItem('startValue')
-    //     if (maxValueAsString && startValueAsString) {
-    //         let newMaxValue = JSON.parse(maxValueAsString)
-    //         let newStartValue = JSON.parse(startValueAsString)
-    //         setMaxValue(newMaxValue)
-    //         setStartValue(newStartValue)
-    //     }
-    // }
-    // const setToLocalStorage = () => {
-    //     localStorage.setItem('maxValue', JSON.stringify(maxValue))
-    //     localStorage.setItem('startValue', JSON.stringify(startValue))
-    // }
+    useEffect(() => {
+        dispatch(getValueFromLocalStorageTC())
+    }, [])
 
     const setButton = () => {
         dispatch(setButtonClickAC())
-        //setToLocalStorage()
+        dispatch(putValueFromLocalStorageTC())
     }
     const addValue = () => {
         dispatch(addValueAC())

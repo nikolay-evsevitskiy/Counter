@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {AppRootStateType} from "./store";
+
 export type CounterStateType = {
     value: number
     maxValue: number
@@ -15,11 +18,14 @@ type AddValueType = ReturnType<typeof addValueAC>
 type ResetValueType = ReturnType<typeof resetValueAC>
 type ChangeMaxValueType = ReturnType<typeof changeMaxValueAC>
 type ChangeStartValueType = ReturnType<typeof changeStartValueAC>
-type ActionsType = SetButtonClickType
+type SetInitValueType = ReturnType<typeof setInitValueAC>
+type ActionsType =
+    SetButtonClickType
     | AddValueType
     | ResetValueType
     | ChangeMaxValueType
     | ChangeStartValueType
+    | SetInitValueType
 const initialState: CounterStateType = {
     value: 0,
     maxValue: 0,
@@ -105,13 +111,21 @@ export const counterReducer = (state: CounterStateType = initialState, action: A
             copyState.startValue = action.newValue
             return copyState
         }
-
+        case "SET-INITIAL-VALUE": {
+            return {
+                ...state,
+                startValue: action.startValue,
+                maxValue: action.maxValue
+            }
+        }
         default:
             return state
     }
 }
 
-
+export const setInitValueAC = (startValue: number, maxValue: number) => {
+    return {type: 'SET-INITIAL-VALUE', startValue, maxValue} as const
+}
 export const setButtonClickAC = () => {
     return {type: 'CLICK-BUTTON-OF-SET'} as const
 }
@@ -128,5 +142,21 @@ export const changeStartValueAC = (newValue: number) => {
     return {type: 'CHANGE-START-VALUE', newValue} as const
 }
 
+//thunk
+export const putValueFromLocalStorageTC = () => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    const currentMaxValue = getState().counter.maxValue
+    const currentStartValue = getState().counter.startValue
+    localStorage.setItem('maxValue', JSON.stringify(currentMaxValue))
+    localStorage.setItem('startValue', JSON.stringify(currentStartValue))
 
 
+}
+export const getValueFromLocalStorageTC = () => (dispatch: Dispatch<ActionsType>) => {
+    let maxValueAsString = localStorage.getItem('maxValue')
+    let startValueAsString = localStorage.getItem('startValue')
+    if (maxValueAsString && startValueAsString) {
+        let newMaxValue = JSON.parse(maxValueAsString)
+        let newStartValue = JSON.parse(startValueAsString)
+        dispatch(setInitValueAC(newStartValue, newMaxValue))
+    }
+}

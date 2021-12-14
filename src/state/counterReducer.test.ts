@@ -4,7 +4,7 @@ import {
     counterReducer,
     CounterStateType,
     resetValueAC,
-    setButtonClickAC
+    setButtonClickAC, setInitValueAC
 } from "./counterReducer";
 
 
@@ -116,6 +116,7 @@ test('callback function of start value input should be work correct', () => {
         errorStartValue: false
     }
     const endState = counterReducer(startState, action)
+
     expect(endState.errorResetButton).toBe(true)
     expect(endState.errorIncrementButton).toBe(true)
     expect(endState.errorSettingButton).toBe(false)
@@ -123,4 +124,12 @@ test('callback function of start value input should be work correct', () => {
     expect(endState.alertSetTitle).toBe(true)
     expect(endState.errorValue).toBe(false)
     expect(endState.startValue).toBe(8)
+})
+test('start init value should be correct set in state', () => {
+    const action = setInitValueAC(3, 54)
+    const endState = counterReducer(startState, action)
+
+    expect(endState.startValue).toBe(3)
+    expect(endState.maxValue).toBe(54)
+    expect(endState.value).toBe(0)
 })
