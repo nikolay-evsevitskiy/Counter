@@ -6,7 +6,7 @@ import {AppRootStateType} from "./state/store";
 import {
     addValueAC,
     changeMaxValueAC,
-    changeStartValueAC, getValueFromLocalStorageTC, putValueFromLocalStorageTC,
+    changeStartValueAC,
     resetValueAC,
     setButtonClickAC,
 } from "./state/counterReducer";
@@ -26,12 +26,12 @@ function App() {
     const maxValue = useSelector<AppRootStateType, number>(state => state.counter.maxValue)
 
     useEffect(() => {
-        dispatch(getValueFromLocalStorageTC())
+        // dispatch(getValueFromLocalStorageTC())
     }, [])
 
     const setButton = () => {
         dispatch(setButtonClickAC())
-        dispatch(putValueFromLocalStorageTC())
+        // dispatch(putValueFromLocalStorageTC())
     }
     const addValue = () => {
         dispatch(addValueAC())
