@@ -1,99 +1,59 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Counter} from './Counter';
 import {CounterSetting} from "./CounterSetting";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./state/store";
+import {addValueAC, changeMaxValueAC, changeStartValueAC, resetValueAC, setButtonClickAC} from "./state/counterReducer";
 
 function App() {
-    const [value, setValue] = useState<number>(0)
-    const [maxValue, setMaxValue] = useState<number>(0)
-    const [startValue, setStartValue] = useState<number>(0)
-    const [errorValue, setErrorValue] = useState<boolean>(false)
-    const [errorIncrementButton, setErrorIncrementButton] = useState<boolean>(true)
-    const [errorResetButton, setErrorResetButton] = useState<boolean>(true)
-    const [errorSettingButton, setErrorSettingButton] = useState<boolean>(false)
-    const [alertSetTitle, setAlertSetTitle] = useState<boolean>(false)
-    const [errorMaxValue, setErrorMaxValue] = useState<boolean>(false)
-    const [errorStartValue, setErrorStartValue] = useState<boolean>(false)
 
-    useEffect(() => {
-        getFromLocalStorage()
-    }, [])
+    const dispatch = useDispatch()
+    const value = useSelector<AppRootStateType, number>(state => state.counter.value)
+    const errorIncrement = useSelector<AppRootStateType, boolean>(state => state.counter.errorIncrementButton)
+    const errorResetButton = useSelector<AppRootStateType, boolean>(state => state.counter.errorResetButton)
+    const alertSetTitle = useSelector<AppRootStateType, boolean>(state => state.counter.alertSetTitle)
+    const errorMaxValue = useSelector<AppRootStateType, boolean>(state => state.counter.errorMaxValue)
+    const errorStartValue = useSelector<AppRootStateType, boolean>(state => state.counter.errorStartValue)
+    const errorValue = useSelector<AppRootStateType, boolean>(state => state.counter.errorValue)
+    const errorSettingButton = useSelector<AppRootStateType, boolean>(state => state.counter.errorSettingButton)
+    const startValue = useSelector<AppRootStateType, number>(state => state.counter.startValue)
+    const maxValue = useSelector<AppRootStateType, number>(state => state.counter.maxValue)
 
-    const getFromLocalStorage = () => {
-        let maxValueAsString = localStorage.getItem('maxValue')
-        let startValueAsString = localStorage.getItem('startValue')
-        if (maxValueAsString && startValueAsString) {
-            let newMaxValue = JSON.parse(maxValueAsString)
-            let newStartValue = JSON.parse(startValueAsString)
-            setMaxValue(newMaxValue)
-            setStartValue(newStartValue)
-        }
-    }
-    const setToLocalStorage = () => {
-        localStorage.setItem('maxValue', JSON.stringify(maxValue))
-        localStorage.setItem('startValue', JSON.stringify(startValue))
-    }
+
+    // useEffect(() => {
+    //     getFromLocalStorage()
+    // }, [])
+    //
+    // const getFromLocalStorage = () => {
+    //     let maxValueAsString = localStorage.getItem('maxValue')
+    //     let startValueAsString = localStorage.getItem('startValue')
+    //     if (maxValueAsString && startValueAsString) {
+    //         let newMaxValue = JSON.parse(maxValueAsString)
+    //         let newStartValue = JSON.parse(startValueAsString)
+    //         setMaxValue(newMaxValue)
+    //         setStartValue(newStartValue)
+    //     }
+    // }
+    // const setToLocalStorage = () => {
+    //     localStorage.setItem('maxValue', JSON.stringify(maxValue))
+    //     localStorage.setItem('startValue', JSON.stringify(startValue))
+    // }
 
     const setButton = () => {
-        setValue(startValue)
-        setErrorIncrementButton(false)
-        setErrorSettingButton(true)
-        setErrorMaxValue(false)
-        setErrorStartValue(false)
-        setAlertSetTitle(false)
-        setToLocalStorage()
+        dispatch(setButtonClickAC())
+        //setToLocalStorage()
     }
     const addValue = () => {
-        if (value + 1 >= maxValue) {
-            setErrorIncrementButton(true)
-            setErrorValue(true)
-            setErrorResetButton(false)
-            setValue(value + 1)
-        } else {
-            setErrorIncrementButton(false)
-            setErrorResetButton(false)
-            setValue(value + 1)
-        }
+        dispatch(addValueAC())
     }
     const resetValue = () => {
-        setErrorIncrementButton(false)
-        setErrorResetButton(true)
-        setErrorValue(false)
-        setValue(startValue)
+        dispatch(resetValueAC())
     }
-
     const changeMaxValue = (newValue: number) => {
-        if (newValue <= startValue || newValue <= 0) {
-            setErrorResetButton(true)
-            setErrorSettingButton(true)
-            setErrorMaxValue(true)
-            setAlertSetTitle(false)
-
-        } else {
-            setErrorResetButton(true)
-            setErrorIncrementButton(true)
-            setErrorSettingButton(false)
-            setErrorMaxValue(false)
-            setAlertSetTitle(true)
-            setErrorValue(false)
-        }
-        setMaxValue(newValue)
+        dispatch(changeMaxValueAC(newValue))
     }
     const changeStartValue = (newValue: number) => {
-        if (newValue < 0 || newValue >= maxValue) {
-            setErrorResetButton(true)
-            setErrorSettingButton(true)
-            setErrorStartValue(true)
-            setAlertSetTitle(false)
-
-        } else {
-            setErrorResetButton(true)
-            setErrorIncrementButton(true)
-            setErrorSettingButton(false)
-            setAlertSetTitle(true)
-            setErrorStartValue(false)
-            setErrorValue(false)
-        }
-        setStartValue(newValue)
+        dispatch(changeStartValueAC(newValue))
     }
 
     return (
@@ -102,7 +62,7 @@ function App() {
                 value={value}
                 addValue={addValue}
                 resetValue={resetValue}
-                errorIncrement={errorIncrementButton}
+                errorIncrement={errorIncrement}
                 errorReset={errorResetButton}
                 alertSetTitle={alertSetTitle}
                 errorMaxValue={errorMaxValue}
